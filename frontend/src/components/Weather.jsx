@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import Loader from "../utlis/Loader";
 const Weather = () => {
   const [data, setData] = useState(null);
-
-  const api =
-    "https://api.openweathermap.org/data/2.5/weather?lat=31.7167&lon=76.9167&appid=8fbee55cvarfce43ab3dkushal9a43cdc21b65ad9";
+const [error, setError] = useState(null);
+  const api = "http://localhost:5000/api/weather"
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -16,14 +15,15 @@ const Weather = () => {
 
         setData(json);
       } catch (err) {
-        console.error("Error", err);
+         console.error(err);
+          setError('Something went wrong');
       }
     };
     fetchdata();
   }, [api]);
 
   if (!data) return <Loader />;
-
+if (error) return <p>{error}</p>;
   const weather = data.weather[0].description;
   const timestamp = data.dt;
   const date = new Date(timestamp * 1000);
