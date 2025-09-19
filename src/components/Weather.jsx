@@ -4,7 +4,7 @@ const Weather = () => {
   const [data, setData] = useState(null);
 
   const api =
-    "https://api.openweathermap.org/data/2.5/weather?lat=31.7167&lon=76.9167&appid=8fbee55cfce43ab3d9a43cdc21b65ad9";
+    "https://api.openweathermap.org/data/2.5/weather?lat=31.7167&lon=76.9167&appid=8fbee55cvarfce43ab3dkushal9a43cdc21b65ad9";
 
   useEffect(() => {
     const fetchdata = async () => {
