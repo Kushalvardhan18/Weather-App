@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import Loader from "../utlis/Loader";
 const Weather = () => {
   const [data, setData] = useState(null);
-const [error, setError] = useState(null);
-  const api = "http://localhost:5000/api/weather"
+  const [error, setError] = useState(null);
+  const api = "http://localhost:5000/api/weather";
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -15,15 +15,15 @@ const [error, setError] = useState(null);
 
         setData(json);
       } catch (err) {
-         console.error(err);
-          setError('Something went wrong');
+        console.error(err);
+        setError("Something went wrong");
       }
     };
     fetchdata();
   }, [api]);
 
   if (!data) return <Loader />;
-if (error) return <p>{error}</p>;
+  if (error) return <p>{error}</p>;
   const weather = data.weather[0].description;
   const timestamp = data.dt;
   const date = new Date(timestamp * 1000);
@@ -35,7 +35,6 @@ if (error) return <p>{error}</p>;
   const sunrise = new Date(data.sys.sunrise * 1000);
   const sunset = new Date(data.sys.sunset * 1000);
 
-
   const currTemp = (data.main.temp - 273.15).toFixed(2);
   const minTemp = (data.main.temp_min - 273.15).toFixed(2);
   const maxTemp = (data.main.temp_max - 273.15).toFixed(2);
@@ -46,31 +45,33 @@ if (error) return <p>{error}</p>;
   const wind = data.wind.speed;
 
   return (
-    <div>
-      <div>Current Temp : {currTemp} °C</div>
-      <div>
-        Feels like : {currTemp} °C , {weather}{" "}
+    <div className="flex flex-col gap-5 mt-5 mb-5">
+      <div className="text-3xl">Current Temp : {currTemp} °C</div>
+      <div className="text-2xl">
+       Today's Weather Feels like : {currTemp} °C , {weather}{" "}
       </div>
-      <div>
+      <div className="text-xl">
         Current Time : {hours}:{minutes} {ampm}
       </div>
 
-      <div>
-        <div>min : {minTemp} °C</div>
-        <div>max : {maxTemp} °C</div>
+      <div className="flex gap-5">
+        <div>min temp : {minTemp} °C</div>
+        <div>max temp : {maxTemp} °C</div>
       </div>
-      <div>
+      <div className="flex gap-5">
         <div>pressure : {pressure} hPa</div>
         <div> humidity : {humidity} %</div>
         <div>visibility : {visibility} km </div>
         <div>wind : {wind} m/s</div>
       </div>
-      <div>
+      <div className="flex gap-5">
         <div>
-          Sunrise : {sunrise.getHours().toString().padStart(2, "0")} : {sunrise.getMinutes().toString().padStart(2, "0")} AM
+          Sunrise : {sunrise.getHours().toString().padStart(2, "0")} :{" "}
+          {sunrise.getMinutes().toString().padStart(2, "0")} AM
         </div>
         <div>
-          Sunset : {sunset.getHours().toString().padStart(2, "0")} : {sunset.getMinutes().toString().padStart(2, "0")} PM
+          Sunset : {sunset.getHours().toString().padStart(2, "0")} :{" "}
+          {sunset.getMinutes().toString().padStart(2, "0")} PM
         </div>
       </div>
     </div>
