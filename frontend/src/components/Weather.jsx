@@ -7,7 +7,7 @@ import sunsetIcon from "../utlis/sunset.png";
 const Weather = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const api = "http://localhost:5000/api/weather";
+  const api = "http://localhost:5000/api/weather/london";
 
   useEffect(() => {
     const fetchdata = async () => {
