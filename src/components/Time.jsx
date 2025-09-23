@@ -1,11 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
+import Loader from "../utlis/Loader"
 const Time = () => {
+  const [location,setLocation] = useState(null)
+  const city = "paris"
+  const url = `https://api.apiverve.com/v1/worldtime?city=${city}`
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const city = "london"
-        const response = await fetch(`https://api.apiverve.com/v1/worldtime?city=${city}`, {
+        const response = await fetch(url, {
           method: "GET",
           headers: {
             "X-API-Key": `${import.meta.env.VITE_TIME_API_KEY}`,
@@ -15,15 +18,22 @@ const Time = () => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json();
-        console.log(data);
+        const json = await response.json();
+        console.log(json.data.foundCities[0]);
+        setLocation(json)
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, []);
-  return <div>Time</div>;
+  }, [url]);
+
+  if (!location) return <Loader />;
+    const time = location.data.foundCities[0].time12
+    const date = location.data.foundCities[0].date
+ 
+
+  return <div>{time} {date}</div>;
 };
 
 export default Time;

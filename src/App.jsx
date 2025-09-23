@@ -7,7 +7,6 @@ function App() {
   return (
     <div className="m-5">
       <div>
-        {/* <h1 className="text-center text-5xl">Weather App</h1> */}
         <Time/>
         <img src={weather} alt="logo" width={250}/>
         <Search/>

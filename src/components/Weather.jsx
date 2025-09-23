@@ -32,7 +32,7 @@ const Weather = ({cityName}) => {
   const weather = data.weather[0].description;
   const unixTime  = data.dt;
   const timezoneOffset = data.timezone
-  // const utcDate = new Date(unixTime  * 1000);
+  
 const date = new Date((unixTime +timezoneOffset)*1000)
 
 

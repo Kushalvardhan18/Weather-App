@@ -36,7 +36,6 @@ const city = cityName || "london"
         date: data.list[i].dt,
         maxtemp: data.list[i].main.temp_max - 273.15,
         iconCode: data.list[i].weather[0].icon,
-        // timezoneOffset:data.list[i].
       });
     }
   }
