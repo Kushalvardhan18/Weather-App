@@ -3,8 +3,9 @@ import Loader from "../utlis/Loader";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const Forecast = () => {
-  const api = "http://localhost:5000/api/forecast/2643743";
+const Forecast = ({cityName}) => {
+const city = cityName || "london"
+  const api = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${import.meta.env.VITE_API_KEY}`
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -35,13 +36,12 @@ const Forecast = () => {
         date: data.list[i].dt,
         maxtemp: data.list[i].main.temp_max - 273.15,
         iconCode: data.list[i].weather[0].icon,
+        // timezoneOffset:data.list[i].
       });
     }
   }
-  console.log(forecast.length);
+  
 
-  console.log(forecast);
-  // const date = new Date(timestamp * 1000);
 
   return (
     <div>
