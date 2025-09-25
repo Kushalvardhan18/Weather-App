@@ -19,13 +19,15 @@ const Time = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const json = await response.json();
-        console.log(json.data.foundCities[0]);
+        
         setLocation(json)
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
+    const interval = setInterval(fetchData,1000)
+    return () => clearInterval(interval)
   }, [url]);
 
   if (!location) return <Loader />;

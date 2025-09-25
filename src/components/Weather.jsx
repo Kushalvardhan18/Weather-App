@@ -4,42 +4,47 @@ import location from "../utlis/location.png";
 import sunriseIcon from "../utlis/sunrise.png";
 import sunsetIcon from "../utlis/sunset.png";
 
-const Weather = ({cityName}) => {
-  const city = cityName || "paris"
+const Weather = ({ city }) => {
+  const cityName = city || "paris";
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const api = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${import.meta.env.VITE_API_KEY}`
 
   useEffect(() => {
     const fetchdata = async () => {
+      const api = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${
+        import.meta.env.VITE_API_KEY
+      }`;
       try {
         const res = await fetch(api);
-        if (!res.ok) throw new Error("Failed to fetch");
         const json = await res.json();
-
+        if (json.cod !== 200) {
+          setError(json.message || "City not found");
+          setData(null);
+        }else {
+        setError(null);
         setData(json);
+      }
       } catch (err) {
         console.error(err);
         setError("Something went wrong");
       }
     };
     fetchdata();
-  }, [api]);
+  }, [cityName]);
 
   if (!data) return <Loader />;
   if (error) return <p>{error}</p>;
-  
-  const weather = data.weather[0].description;
-  const unixTime  = data.dt;
-  const timezoneOffset = data.timezone
-  
-const date = new Date((unixTime +timezoneOffset)*1000)
 
+  const weather = data.weather[0].description;
+  const unixTime = data.dt;
+  const timezoneOffset = data.timezone;
+
+  const date = new Date((unixTime + timezoneOffset) * 1000);
 
   const currLocation = data.name + " " + data.sys.country;
   const hours = (date.getHours() % 12 || 12).toString().padStart(2, "0");
   const minutes = date.getMinutes().toString().padStart(2, "0");
-  
+
   const ampm = date.getHours() <= 12 ? "AM" : "PM";
 
   const iconCode = data.weather[0].icon;

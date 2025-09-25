@@ -3,14 +3,14 @@ import Loader from "../utlis/Loader";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const Forecast = ({cityName}) => {
-const city = cityName || "london"
-  const api = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${import.meta.env.VITE_API_KEY}`
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
+const Forecast = ({city}) => {
+const cityName = city || "london"
+const [data, setData] = useState(null);
+const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchdata = async () => {
+useEffect(() => {
+  const fetchdata = async () => {
+      const api = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${import.meta.env.VITE_API_KEY}`
       try {
         const res = await fetch(api);
         if (!res.ok) throw new Error("Failed to fetch");
@@ -23,7 +23,7 @@ const city = cityName || "london"
       }
     };
     fetchdata();
-  }, [api]);
+  }, [cityName]);
 
   if (!data) return <Loader />;
   if (error) return <p>{error}</p>;
